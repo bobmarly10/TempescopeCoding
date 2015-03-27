@@ -1,1 +1,3 @@
-This is where the merged file will be. All of the files in the "Sketches" folder will be merged in to one file here (and debuged by humans), and then put on to the circuitboard.
+This is where the merged file will be.
+All of the files in the "Sketches" folder will be merged in to one file here (and debuged by humans).
+Once the above is done, it will be uploaded on to the hacked Arduino board.
