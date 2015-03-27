@@ -3,6 +3,7 @@ const int blackLightPin = 3;
 
 void setup() {
   pinMode(blackLightButton, INPUT);
+  pinMode(blackLightPin, OUTPUT);
 }
 
 int on = 0;
