@@ -1,27 +1,19 @@
-//ARDUINO 1.0+ ONLY
-//ARDUINO 1.0+ ONLY
 #include <Ethernet.h>
 #include <SPI.h>
 
-////////////////////////////////////////////////////////////////////////
-//CONFIGURE
-////////////////////////////////////////////////////////////////////////
-byte server[] = { 10,0,0,8 }; //ip Address of the server you will connect to
+int mode = 0;
 
-//The location to go to on the server
-//make sure to keep HTTP/1.0 at the end, this is telling it what type of file it is
-String location = "/weathergetter/ HTTP/1.0";
+byte server[] = { 10,0,0,8 };
 
+String location = "./ HTTP/1.0";
 
-// if need to change the MAC address (Very Rare)
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-////////////////////////////////////////////////////////////////////////
 
 EthernetClient client;
 
-char inString[32]; // string for incoming serial data
-int stringPos = 0; // string index counter
-boolean startRead = false; // is reading?
+char inString[32];
+int stringPos = 0;
+boolean startRead = false;
 
 void setup(){
   Ethernet.begin(mac);
@@ -29,27 +21,33 @@ void setup(){
 }
 
 void loop(){
-  String pageValue = connectAndRead(); //connect to the server and read the output
+  String pageValue = connectAndRead();
+  
+  if (pageValue == "01d" || pageValue == "01n") {
+    mode = 0;
+  } else if (pageValue == "02d" || pageValue == "02n" || pageValue == "03d" || pageValue == "03n" || pageValue == "04d" || pageValue == "04n") {
+    mode = 1;
+  } else if (pageValue == "09d" || pageValue == "09n" || pageValue == "10d" || pageValue == "10n") {
+    mode = 2;
+  }
+  
 
-  Serial.println(pageValue); //print out the findings.
+  Serial.println(pageValue);
 
-  delay(5000); //wait 5 seconds before connecting again
+  delay(30000); // Five minutes
 }
 
 String connectAndRead(){
-  //connect to the server
 
   Serial.println("connecting...");
-
-  //port 80 is typical of a www page
+  
   if (client.connect(server, 80)) {
     Serial.println("connected");
     client.print("GET ");
     client.println(location);
     client.println();
 
-    //Connected - Read the page
-    return readPage(); //go and read the output
+    return readPage();
 
   }else{
     return "connection failed";
@@ -58,25 +56,23 @@ String connectAndRead(){
 }
 
 String readPage(){
-  //read the page, and capture & return everything between '<' and '>'
-
+  
   stringPos = 0;
-  memset( &inString, 0, 32 ); //clear inString memory
+  memset( &inString, 0, 32 );
 
   while(true){
 
     if (client.available()) {
       char c = client.read();
 
-      if (c == '<' ) { //'<' is our begining character
-        startRead = true; //Ready to start reading the part 
+      if (c == '<' ) {
+        startRead = true;
       }else if(startRead){
 
-        if(c != '>'){ //'>' is our ending character
+        if(c != '>'){
           inString[stringPos] = c;
           stringPos ++;
         }else{
-          //got what we need here! We can disconnect now
           startRead = false;
           client.stop();
           client.flush();
