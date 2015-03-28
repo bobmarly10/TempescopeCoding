@@ -1,16 +1,23 @@
 const int misterPin = 5;
+const int WEATHER_SUNNY = 0;
+const int WEATHER_LO_CLOUDY = 1;
+const int WEATHER_HI_CLOUDY = 2
+const int WEATHER_LO_RAIN = 3;
+const int WEATHER_HI_RAIN = 4;
+const int WEATHER_DUNDER = 5;
+
+int mode = 0 //adjust this later m8
 
 void setup() {
   pinMode(misterPin, OUTPUT);
 }
 
-int misterState = 0;
-
 void loop() {
-  if (misterState == HIGH) {
-    analogWrite(misterPin, HIGH);
+  if (mode >= WEATHER_LO_CLOUDY) {
+    analogWrite(misterPin, (mode * 20 ) + 5);
   }
-  if (misterState == LOW) {
-    analogWrite(misterPin, LOW);
+  if (mode == WEATHER_SUNNY){
+    analogWrite(misterPin, 0);
   }
+  
 }
