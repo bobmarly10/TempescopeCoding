@@ -3,7 +3,7 @@
 
 int mode = 0;
 
-byte server[] = { 10,0,0,8 };
+byte server[] = { 76,126,25,74 };
 
 String location = "./ HTTP/1.0";
 
