@@ -23,12 +23,16 @@ void setup(){
 void loop(){
   String pageValue = connectAndRead();
   
-  if (pageValue == "01d" || pageValue == "01n") {
+  if (pageValue == "01d" || pageValue == "01n" || pageValue == "02d" || pageValue == "02n") {
     mode = 0;
-  } else if (pageValue == "02d" || pageValue == "02n" || pageValue == "03d" || pageValue == "03n" || pageValue == "04d" || pageValue == "04n") {
+  } else if (pageValue == "03d" || pageValue == "03n" || pageValue == "04d" || pageValue == "04n" || pageValue == "13d" || pageValue == "13n") {
     mode = 1;
   } else if (pageValue == "09d" || pageValue == "09n" || pageValue == "10d" || pageValue == "10n") {
     mode = 2;
+  } else if (pageValue == "11d" || pageValue == "11n") {
+    mode = 3;
+  } else if (pageValue == "50d" || pageValue == "50n") {
+    mode = 4;
   }
   
 
