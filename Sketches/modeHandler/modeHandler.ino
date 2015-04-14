@@ -3,8 +3,12 @@
 
 int mode = 0;
 
+<<<<<<< HEAD
 byte server[] = { 
   67,188,251,155 };
+=======
+byte server[] = { 76,126,25,74 };
+>>>>>>> 849c67966ed16e822c94d0c2a5f59ee703833a4b
 
 String location = "/weathergetter/ HTTP/1.0";
 
